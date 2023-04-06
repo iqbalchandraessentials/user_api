@@ -24,20 +24,50 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'NIK',
         'name',
+        'barcode',
+        'nik',
         'email',
-        'own_status',
-        'owners',
-        'username',
-        'roles',
+        'phone',
+        'mobile_phone',
+        'organization_id',
+        'location_id',
+        'job_level_id',
+        'division_id',
+        'departement_id',
+        'job_potition',
+        'join_date',
+        'resign_date',
+        'status_employee',
+        'end_date',
+        'birth_date',
+        'birth_place',
+        'citizen_id_address',
+        'resindtial_address',
+        'NPWP',
+        'PKTP_status',
+        'employee_tax_status',
+        'tax_config',
+        'bank_name',
+        'bank_account',
+        'bank_account_holder',
+        'bpjs_ketenagakerjaan',
+        'bpjs_kesehatan',
+        'citizen_id',
+        'religion',
+        'gender',
+        'marital_status',
+        'nationality_code',
+        'currency',
+        'length_of_service',
+        'payment_schedule',
+        'approval_line',
+        'manager',
+        'grade',
+        'class',
         'password',
-        'jabatan',
-        'foto',
-        'departement',
-        'PT',
-        'owners',
-        'location',
+        'schedule_id',
+        'photo_path',
     ];
 
     /**
@@ -70,8 +100,32 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function transactions()
+    public function organization()
     {
-        return $this->hasMany(Transaction::class, 'users_id', 'id');
+        return $this->belongsTo(Organization::class, 'organization_id', 'id')->select(['id', 'name']);
+    }
+    public function division()
+    {
+        return $this->belongsTo(Division::class, 'division_id', 'id')->select(['id', 'name']);
+    }
+    public function departement()
+    {
+        return $this->belongsTo(Departement::class, 'departement_id', 'id')->select(['id', 'name']);
+    }
+    public function level()
+    {
+        return $this->belongsTo(Position::class, 'job_level_id', 'id')->select(['id', 'name']);
+    }
+    public function location()
+    {
+        return $this->belongsTo(Location::class, 'location_id', 'id')->select(['id', 'name','location','longitude','latitude','radius']);
+    }
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'id', 'manager')->select(['id', 'name']);
+    }
+    public function approval_line()
+    {
+        return $this->belongsTo(User::class, 'id', 'approval_line')->select(['id', 'name']);
     }
 }
